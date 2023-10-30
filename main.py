@@ -2,7 +2,7 @@ import os
 from PIL import Image, ImageDraw
 from bs4 import BeautifulSoup
 
-domain = ""
+our_domain = ""
 target_dir = ""
 root_path = 'workdir'
 
@@ -34,10 +34,11 @@ def create_img(target_dir: str, file_path: str):
 
 def chack_domain(url: str) -> bool:
     split_url = url.split('//')
+    print(split_url)
 
     if split_url[0] == 'http:' or split_url[0] == 'https:':
         domain = split_url[1].split('/')[0]
-        if domain != domain:
+        if domain != our_domain:
             return True
 
 
@@ -64,9 +65,11 @@ def replace_links(html_file, new_url):
 
     for link in a_links:
         href = link.get('href')
+        
+        print('href is '+ href)
 
         if href and chack_domain(href):
-            # print(href)
+            print(href)
             link['href'] = href.replace(href, new_url)
     
     with open(html_file, 'w') as new_file:
@@ -74,13 +77,13 @@ def replace_links(html_file, new_url):
 
 
 if __name__ == "__main__":
-    domain = input("Enter domein in <example.com> format: ")
+    our_domain = input("Enter domein in <example.com> format: ")
     target_dir = input("Enter directory name: ")
-    if not domain or not target_dir:
+    if not our_domain or not target_dir:
         print('не можна пропускати domein та directory name')
     else:
         for root, dirs, files in os.walk(root_path):
             for name in files:
                 print(os.path.join(root, name))
                 if name.split('.')[-1] == 'html':
-                    replace_links(os.path.join(root, name), '#')
+                    replace_links(html_file=os.path.join(root, name),new_url='#')
