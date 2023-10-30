@@ -12,10 +12,10 @@ def create_img(target_dir: str, file_path: str):
     file_dir_str = "/".join(file_dir_list[:-1])
     new_file_path = "/".join(file_dir_list)
 
-    print('new_file_path '+new_file_path)
-    print(file_dir_str)
+    # print('new_file_path '+new_file_path)
+    # print(file_dir_str)
     if not os.path.exists(f'workdir/{target_dir}/{new_file_path}'):
-        print(file_dir_list)
+        # print(file_dir_list)
         
         if file_dir_list:
             
@@ -25,16 +25,15 @@ def create_img(target_dir: str, file_path: str):
             width, height = 1, 1
             background_color = (0, 0, 0)  # Red
             image = Image.new('RGB', (width, height), background_color)
-            print(f'!!!!!to workdir/{target_dir}/{new_file_path}')
+            # print(f'!!!!!to workdir/{target_dir}/{new_file_path}')
             image.save(f'workdir/{target_dir}/{new_file_path}')
 
-            print(f"Image saved to {target_dir}/{new_file_path}")
+            print(f"Image saved")
     else:
         print(f'fiel is exists')
 
 def chack_domain(url: str) -> bool:
     split_url = url.split('//')
-    print(split_url)
 
     if split_url[0] == 'http:' or split_url[0] == 'https:':
         domain = split_url[1].split('/')[0]
@@ -43,7 +42,7 @@ def chack_domain(url: str) -> bool:
 
 
 def replace_links(html_file, new_url):
-    with open(html_file, 'r') as file:
+    with open(html_file, 'r',  encoding="utf-8", errors='ignore') as file:
         html_content = file.read()
 
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -55,7 +54,6 @@ def replace_links(html_file, new_url):
         src = img.get('src')
         split_src = src.split('//')
         file_extention = src.split('.')[-1]
-        print(split_src)
         if split_src[0] == 'http:' or split_src[0] == 'https:':
             pass
         elif file_extention == "html" or file_extention == "svg": 
@@ -65,14 +63,12 @@ def replace_links(html_file, new_url):
 
     for link in a_links:
         href = link.get('href')
-        
-        print('href is '+ href)
 
         if href and chack_domain(href):
-            print(href)
+            # print(href)
             link['href'] = href.replace(href, new_url)
     
-    with open(html_file, 'w') as new_file:
+    with open(html_file, 'w',  encoding="utf-8", errors='ignore') as new_file:
         new_file.write(str(soup))
 
 
@@ -84,6 +80,6 @@ if __name__ == "__main__":
     else:
         for root, dirs, files in os.walk(root_path):
             for name in files:
-                print(os.path.join(root, name))
+                # print(os.path.join(root, name))
                 if name.split('.')[-1] == 'html':
-                    replace_links(html_file=os.path.join(root, name),new_url='#')
+                    replace_links(os.path.join(root, name), '#')
