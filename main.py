@@ -23,7 +23,7 @@ def create_img(target_dir: str, file_path: str):
                 os.makedirs(f'workdir/{target_dir}/{file_dir_str}')
 
             width, height = 1, 1
-            background_color = (0, 0, 0)  # Red
+            background_color = (255,255,255)  # White
             image = Image.new('RGB', (width, height), background_color)
             print(f'!!!!!to workdir/{target_dir}/{new_file_path}')
             image.save(f'workdir/{target_dir}/{new_file_path}')
@@ -38,7 +38,7 @@ def chack_domain(url: str) -> bool:
 
     if split_url[0] == 'http:' or split_url[0] == 'https:':
         domain = split_url[1].split('/')[0]
-        if domain != our_domain:
+        if domain != our_domain or domain != f'www.{our_domain}':
             return True
 
 
