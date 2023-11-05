@@ -37,7 +37,6 @@ def chack_extermal_domen(url: str) -> bool:
             return True
     return False
 
-
 def replace_links(html_file, new_url):
     with open(html_file, 'r',  encoding="utf-8", errors='ignore') as file:
         html_content = file.read()
@@ -46,6 +45,14 @@ def replace_links(html_file, new_url):
 
     a_links = soup.find_all('a')
     img_links = soup.find_all('img')
+    links = soup.find_all('link')
+    
+    for link in links:
+        href = link.get('href')
+        split_src = href.split('//')
+        if split_src[0] == 'http:':
+            new_href = f'https://{split_src[1]}'
+            link['href'] = href.replace(href, new_href)  
     
     for img in img_links:
         src = img.get('src')
@@ -71,13 +78,17 @@ def replace_links(html_file, new_url):
 
     for link in a_links:
         href = link.get('href')
+        split_href = href.split('//')
 
         if href and chack_extermal_domen(href):
             link['href'] = href.replace(href, new_url)
+
+        if href and split_href[0] == 'http:':
+            new_href = f'https://{split_href[1]}'
+            link['href'] = href.replace(href, new_href)
     
     with open(html_file, 'w',  encoding="utf-8", errors='ignore') as new_file:
         new_file.write(str(soup))
-
 
 if __name__ == "__main__":
     our_domain = input("Enter domein in <example.com> format: ")
