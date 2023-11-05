@@ -12,10 +12,7 @@ def create_img(target_dir: str, file_path: str):
     file_dir_str = "/".join(file_dir_list[:-1])
     new_file_path = "/".join(file_dir_list)
 
-    # print('new_file_path '+new_file_path)
-    # print(file_dir_str)
     if not os.path.exists(f'workdir/{target_dir}/{new_file_path}'):
-        # print(file_dir_list)
         
         if file_dir_list:
             
@@ -25,10 +22,8 @@ def create_img(target_dir: str, file_path: str):
             width, height = 1, 1
             background_color = (228,213,181)  # White
             image = Image.new('RGB', (width, height), background_color)
-            # print(f'!!!!!to workdir/{target_dir}/{new_file_path}')
             image.save(f'workdir/{target_dir}/{new_file_path}')
 
-            # print(f"Image saved")
     else:
          print(f'fiel is exists')
 
@@ -56,7 +51,7 @@ def replace_links(html_file, new_url):
         src = img.get('src')
         split_src = src.split('//')
         file_extention = src.split('.')[-1]
-        # print(split_src)
+
         if split_src[0] == 'http:' or split_src[0] == 'https:':
             
             if not chack_extermal_domen(url=src):
@@ -78,7 +73,6 @@ def replace_links(html_file, new_url):
         href = link.get('href')
 
         if href and chack_extermal_domen(href):
-            # print(href)
             link['href'] = href.replace(href, new_url)
     
     with open(html_file, 'w',  encoding="utf-8", errors='ignore') as new_file:
@@ -93,6 +87,5 @@ if __name__ == "__main__":
     else:
         for root, dirs, files in os.walk(root_path):
             for name in files:
-                # print(os.path.join(root, name))
                 if name.split('.')[-1] == 'html':
                     replace_links(os.path.join(root, name), '#')
