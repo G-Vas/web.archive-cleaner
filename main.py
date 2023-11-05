@@ -28,7 +28,6 @@ def create_img(target_dir: str, file_path: str):
          print(f'fiel is exists')
 
 def chack_extermal_domen(url: str) -> bool:
-    print(url)
     split_url = url.split('//')
 
     if split_url[0] == 'http:' or split_url[0] == 'https:':
@@ -62,10 +61,8 @@ def replace_links(html_file, new_url):
         if split_src[0] == 'http:' or split_src[0] == 'https:':
             
             if not chack_extermal_domen(url=src):
-                print('not ext'+ src)
                 path = str(split_src[1]).split('/')[1:]
                 file_path = '/'.join(path)
-                print(file_path)
                 create_img(target_dir=target_dir, file_path=file_path)
 
                 new_src = f'https://{our_domain}/{file_path}'
