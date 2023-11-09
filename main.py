@@ -51,8 +51,8 @@ def replace_links(html_file, new_url):
         split_src = href.split('//')
         if split_src[0] == 'http:':
             new_href = f'https://{split_src[1]}'
-            link['href'] = href.replace(href, new_href)  
-    
+            link['href'] = href.replace(href, new_href)
+
     for img in img_links:
         src = img.get('src')
         split_src = src.split('//')
@@ -80,7 +80,7 @@ def replace_links(html_file, new_url):
         if href and chack_extermal_domen(href):
             link['href'] = href.replace(href, new_url)
 
-        if href and split_href[0] == 'http:':
+        if href and split_href[0] == 'http:' and not chack_extermal_domen(href):
             new_href = f'https://{split_href[1]}'
             link['href'] = href.replace(href, new_href)
     
