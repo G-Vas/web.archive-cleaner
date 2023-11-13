@@ -80,8 +80,12 @@ def replace_links(html_file, new_url):
         if href and chack_extermal_domen(href):
             link['href'] = href.replace(href, new_url)
 
-        if href and split_href[0] == 'http:' and not chack_extermal_domen(href):
+        elif href and split_href[0] == 'http:' and not chack_extermal_domen(href):
             new_href = f'https://{split_href[1]}'
+            link['href'] = href.replace(href, new_href)
+
+        elif href and href[0] != '/' and href[0] != '#' and split_href[0] != 'http:' and split_href[0] != 'https:':
+            new_href = f'/{href}'
             link['href'] = href.replace(href, new_href)
     
     with open(html_file, 'w',  encoding="utf-8", errors='ignore') as new_file:
